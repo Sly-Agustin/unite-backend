@@ -6,11 +6,7 @@ const disconnect = async () => {
 };
 
 const connect = async () => {
-  console.log("what is dburl "+dburl);
-  return await mongoose.connect(dburl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  return await mongoose.connect(dburl);
 };
 
 export { connect, disconnect };
