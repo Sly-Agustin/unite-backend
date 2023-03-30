@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { verifySignUp } from '../middlewares';
 import { UserSchema } from '../../../models/user';
 import { RoleSchema } from '../../../models/role';
+import { secret_access_token } from 'config';
 
 const router = express.Router();
 
@@ -49,5 +50,49 @@ router.post(
     //res.send({ message: "User was registered successfully!" });
   }
 )
+
+router.post('/signin', async(req, res) => {
+  const user = await UserSchema.findOne({ email: req.body.email });
+  if (!user) {
+    res.status(400).json({ error: 'User not found' });
+    return
+  }
+
+  const validPassword = await bcrypt.compare(req.body.password, user.password);
+  if (!validPassword) {
+    res.status(400).json({ error: 'Incorrect password' })
+    return
+  }
+  
+  console.log('contents of user: '+JSON.stringify(user));
+
+  let token = jwt.sign({ id: user.id }, secret_access_token, {
+    expiresIn: 86400, // 24 hours
+  });
+
+  var authorities = [];
+
+  for (let i = 0; i < user.roles.length; i++) {
+    let role = await RoleSchema.findById(user.roles[i]);
+    authorities.push(role.name.toLowerCase());
+  }
+
+  req.session.token = token;
+  res.status(200).send({
+    id: user._id,
+    username: user.username,
+    email: user.email,
+    roles: authorities,
+  });
+})
+
+router.post('/signout', async(req, res) => {
+  try {
+    req.session = null;
+    return res.status(200).send({ message: "You've been signed out!" });
+  } catch (err) {
+    this.next(err);
+  }
+})
 
 export default router
