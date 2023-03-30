@@ -14,6 +14,16 @@ const userSchema = new Schema(
       maxlength: 50,
       unique: true
     },
+    password: {
+      type: String,
+      required: true
+    },
+    roles: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "role"
+      }
+    ],
     deleted: {
       type: Boolean,
       default: false,
