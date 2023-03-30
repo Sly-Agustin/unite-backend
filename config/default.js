@@ -6,4 +6,6 @@ module.exports = {
   port: process.env.PORT || 3000,
   host: process.env.HOST || 'http://localhost:',
   dburl: process.env.DBURL,
+  origin: process.env.ORIGIN,
+  secretCookie: process.env.SECRET_COOKIE
 }
