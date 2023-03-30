@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import { port, host, origin, secretCookie } from 'config';
+import { port, host, origin, secret_cookie } from 'config';
 import profileRoute from './routes/profile.route';
 import healthRoute from './routes/health.route';
+import authRoute from './routes/auth.route';
 import { services } from '../../services';
 import { initial } from '../../services/seed/roles';
 
@@ -18,20 +19,21 @@ const app = express();
 
 app.use(cors(corsOptions));
 
-app.use('/', healthRoute);
-app.use('/profile', profileRoute);
-
-app.use(bodyParser.urlencoded({ extended: true })) // This could be true... Further testing needed
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // This could be true... Further testing needed
 
 app.use(
   cookieSession({
     name: "unite-session",
-    secret: secretCookie,
+    secret: secret_cookie,
     httpOnly: true
   })
 );
- 
+
+app.use('/', healthRoute);
+app.use('/profile', profileRoute);
+app.use('/auth', authRoute);
+
 // For use later to separate things
 const build = () => app;
 

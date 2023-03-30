@@ -7,5 +7,6 @@ module.exports = {
   host: process.env.HOST || 'http://localhost:',
   dburl: process.env.DBURL,
   origin: process.env.ORIGIN,
-  secretCookie: process.env.SECRET_COOKIE
+  secret_cookie: process.env.SECRET_COOKIE,
+  secret_access_token: process.env.SECRET_ACCESS_TOKEN,
 }
