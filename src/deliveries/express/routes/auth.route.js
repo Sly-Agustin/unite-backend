@@ -63,8 +63,6 @@ router.post('/signin', async(req, res) => {
     res.status(400).json({ error: 'Incorrect password' })
     return
   }
-  
-  console.log('contents of user: '+JSON.stringify(user));
 
   let token = jwt.sign({ id: user.id }, secret_access_token, {
     expiresIn: 86400, // 24 hours

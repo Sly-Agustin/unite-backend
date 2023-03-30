@@ -2,7 +2,6 @@ import { UserSchema } from '../../../models/user'
 import roles from '../../../models/roles';
 
 const checkDuplicateUsernameOrEmail = async (req, res, next) => {
-  console.log('What did i get in the body? '+JSON.stringify(req.body));
   try {
     const usernameExists = await UserSchema.findOne({
       username: req.body.username
