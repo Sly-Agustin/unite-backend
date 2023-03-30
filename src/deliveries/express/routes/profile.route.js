@@ -4,8 +4,9 @@ const fs = require('fs');
 
 const express = require("express");
 const router = express.Router();
+import { authJwt } from "../middlewares";
 
-const userModel = require('../../../models/user');
+import { UserSchema } from "../../../models/user";
 const multer = require('multer');
 const upload = multer();
 
@@ -78,6 +79,20 @@ router.get('/profileImage/download/:filename', async(req, res) => {
 
   const stream = bucket.openDownloadStreamByName(req.params.filename).pipe(res);
 
+})
+
+router.get('/', authJwt.verifyToken, async(req, res) => {
+  if (!req.body.username) {
+    res.status(400).json({ message: 'no username provided'})
+    return
+  }
+  let user = await UserSchema.findOne({username: req.body.username});
+  if (!user) {
+    res.status(400).json({ message: 'user not found' })
+  }
+  res.status(200).json({
+    userdata: user
+  })
 })
 
 export default router;
