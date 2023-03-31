@@ -30,7 +30,7 @@ const userSchema = new Schema(
     },
     profileImage: {
       type: mongoose.Types.ObjectId,
-      ref: 'profilePictureSchema'
+      ref: 'profilePicture'
     }
   }
 )
