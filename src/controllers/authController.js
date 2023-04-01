@@ -1,7 +1,5 @@
-import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { verifySignUp } from '../deliveries/express/middlewares';
 import { UserSchema } from '../models/user';
 import { RoleSchema } from '../models/role';
 import { secret_access_token } from 'config';
