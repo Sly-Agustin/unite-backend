@@ -4,6 +4,8 @@ import { port, host, origin, secret_cookie } from 'config';
 import profileRoute from './routes/profile.route';
 import healthRoute from './routes/health.route';
 import authRoute from './routes/auth.route';
+import modRoute from './routes/mod.route'
+import gameRoute from './routes/game.route'
 import { services } from '../../services';
 import { initial } from '../../services/seed/roles';
 
@@ -33,6 +35,8 @@ app.use(
 app.use('/', healthRoute);
 app.use('/profile', profileRoute);
 app.use('/auth', authRoute);
+app.use('/mod', modRoute);
+app.use('/games', gameRoute);
 
 // For use later to separate things
 const build = () => app;
