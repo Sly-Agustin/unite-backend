@@ -3,7 +3,8 @@ import mongoose, { Schema } from "mongoose";
 const gameSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   }
 })
 
