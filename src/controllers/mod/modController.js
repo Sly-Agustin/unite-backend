@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { ModSchema } from '../../models/mod'
 
 const getMod = async(req, res) => {
@@ -6,6 +7,7 @@ const getMod = async(req, res) => {
     let mod = await ModSchema.findById(modId);
     if (!mod) {
       res.status(400).json({ message: 'mod id not found' });
+      return;
     }
     res.status(200).json({ data: mod });
   }
@@ -19,8 +21,8 @@ const postMod = async(req, res) => {
     name: req.body.name,
     description : req.body.description,
     additionalInfo: req.body.additionalInfo,
-    ownerId: req.body.ownerId,
-    gameId: req.body.gameId,
+    ownerId: new mongoose.Types.ObjectId(req.body.ownerId),
+    gameId: new mongoose.Types.ObjectId(req.body.gameId),
     comments: []
   });
 
