@@ -36,4 +36,20 @@ const postMod = async(req, res) => {
 
 }
 
-export default { getMod, postMod }
+const putMod = async(req, res) => {
+  let modId = req.params.id;
+  try{
+    let mod = await ModSchema.findById(modId);
+    if (req.body.name) mod.name = req.body.name;
+    if (req.body.description) mod.description = req.body.description;
+    if (req.body.additionalInfo) mod.additionalInfo = req.body.additionalInfo;
+    await mod.save();
+  }
+  catch(err){
+    res.status(500).send({ message: err });
+  }
+
+  res.status(200).send({ message: 'Mod updated successfully'});
+}
+
+export default { getMod, postMod, putMod }
