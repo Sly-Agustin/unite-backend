@@ -15,9 +15,29 @@ const checkModNameDuplicate = async(req, res, next) => {
   }
   catch(err){
     res.status(500).send({ message: err })
+    return;
   }
 }
 
-const verifyMod = { checkModNameDuplicate }
+const checkModExists = async(req, res, next) => {
+  if (!req.params.id) {
+    res.status(400).send({ message: 'mod id was not provided' });
+    return;
+  }
+  try {
+    const mod = await ModSchema.findById(req.params.id);
+    if (!mod){
+      res.status(400).send({ message: 'mod does not exist' });
+      return;
+    }
+  }
+  catch(err){
+    res.status(500).send({ message: err })
+    return;
+  }
+  next();
+}
+
+const verifyMod = { checkModNameDuplicate, checkModExists }
 
 module.exports = verifyMod
