@@ -5,10 +5,6 @@ const getMod = async(req, res) => {
   const modId = req.params.id;
   try{
     let mod = await ModSchema.findById(modId);
-    if (!mod) {
-      res.status(400).json({ message: 'mod id not found' });
-      return;
-    }
     res.status(200).json({ data: mod });
   }
   catch(err){
