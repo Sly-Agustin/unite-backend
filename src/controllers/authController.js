@@ -5,7 +5,6 @@ import { RoleSchema } from '../models/role';
 import { secret_access_token } from 'config';
 
 const register = async(req, res) => {
-  // validations pending, do them with joi, also do a controller after testing that this works
   const salt = await bcrypt.genSalt(10);
   const password = await bcrypt.hash(req.body.password, salt);
 
