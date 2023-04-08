@@ -1,5 +1,6 @@
 import { UserSchema } from '../../../models/user'
 import roles from '../../../models/roles';
+import registrationErrors from '../../../services/errors/registration';
 
 const checkDuplicateUsernameOrEmail = async (req, res, next) => {
   try {
@@ -7,13 +8,19 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
       username: req.body.username
     })
     if (usernameExists != undefined) {
-      res.status(400).send({ message: "Failed! Username is already in use!" });
+      res.status(400).send({ 
+        status: registrationErrors.userAlreadyExists,
+        message: "Failed! Username is already in use!" 
+      });
       return;
     }
     
     const userExists = await UserSchema.findOne({ email: req.body.email })
     if (userExists != undefined) {
-      res.status(400).send({ message: "Failed! Email is already in use!" });
+      res.status(400).send({ 
+        status: registrationErrors.emailAlreadyExists,
+        message: "Failed! Email is already in use!" 
+      });
       return;
     }
   }  
