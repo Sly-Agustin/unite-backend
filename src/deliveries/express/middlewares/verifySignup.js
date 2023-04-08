@@ -9,7 +9,7 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
     })
     if (usernameExists != undefined) {
       res.status(400).send({ 
-        status: registrationErrors.userAlreadyExists,
+        errCode: registrationErrors.userAlreadyExists,
         message: "Failed! Username is already in use!" 
       });
       return;
@@ -18,7 +18,7 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
     const userExists = await UserSchema.findOne({ email: req.body.email })
     if (userExists != undefined) {
       res.status(400).send({ 
-        status: registrationErrors.emailAlreadyExists,
+        errCode: registrationErrors.emailAlreadyExists,
         message: "Failed! Email is already in use!" 
       });
       return;
