@@ -11,5 +11,7 @@ const router = express.Router();
 router.get('/:id', verifyMod.checkModExists, modController.getMod);
 router.post('/', Validator('modValidatorSchema'), authJwt.verifyToken, verifyMod.checkModNameDuplicate, modController.postMod);
 router.put('/:id', authJwt.verifyToken, verifyMod.checkModExists, verifyModOwner.checkOwnerSameAsActiveUser, modController.putMod);
+router.get('/game/:id', modController.getModsOfGame);
+router.get('/user/:id', modController.getModsOfUser);
 
 export default router

@@ -48,4 +48,26 @@ const putMod = async(req, res) => {
   res.status(200).send({ message: 'Mod updated successfully'});
 }
 
-export default { getMod, postMod, putMod }
+const getModsOfGame = async(req, res) => {
+  let gameId = req.params.id;
+  try{
+    const mods = await ModSchema.find({ gameId: gameId });
+    res.status(200).send(mods);
+  }
+  catch(err){
+    res.status(500).send({ message: err });
+  }
+}
+
+const getModsOfUser = async(req, res) => {
+  let ownerId = req.params.id;
+  try{
+    const mods = await ModSchema.find({ ownerId: ownerId });
+    res.status(200).send(mods);
+  }
+  catch(err){
+    res.status(500).send({ message: err });
+  }
+}
+
+export default { getMod, postMod, putMod, getModsOfGame, getModsOfUser }
