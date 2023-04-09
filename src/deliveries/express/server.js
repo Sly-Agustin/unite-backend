@@ -14,7 +14,8 @@ const bodyParser = require('body-parser');
 const cookieSession = require("cookie-session");
 
 const corsOptions = {
-  origin: origin
+  origin: origin,
+  credentials: true,
 }
 
 const app = express();
