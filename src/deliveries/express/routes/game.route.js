@@ -8,5 +8,6 @@ const router = express.Router();
 // Validators pending
 router.get('/all', gameController.getAllGames);
 router.post('/new', Validator('newGameSchema'), authJwt.verifyToken, gameController.postGame);
+router.get('/:id', gameController.getSpecificGame);
 
 export default router

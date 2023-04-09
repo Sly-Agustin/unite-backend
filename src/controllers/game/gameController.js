@@ -20,4 +20,19 @@ const postGame = async(req, res) => {
   }
 }
 
-export default { getAllGames, postGame }
+const getSpecificGame = async(req, res) => {
+  const id = req.params.id;
+  try{
+    const game = await GameSchema.findById(id);
+    if(!game){
+      res.status(404).send({ message: 'game not found' });
+      return;
+    }
+    res.status(200).send(game);
+  }
+  catch(err){
+    res.status(500).send({ message: err })
+  }
+}
+
+export default { getAllGames, postGame, getSpecificGame }
