@@ -81,13 +81,16 @@ const getModsOfUser = async(req, res) => {
 const uploadModPhoto = async (req, res) => {
   try {
     await upload(req, res);
-    console.log(req.file);
 
     if (req.file == undefined) {
       return res.send({
         message: "You must select a file.",
       });
     }
+
+    let mod = await ModSchema.findById(req.params.id);
+    mod.picture=req.file.id;
+    await mod.save();
 
     return res.send({
       message: "File has been uploaded.",
@@ -101,17 +104,20 @@ const uploadModPhoto = async (req, res) => {
 }
 
 const downloadModPhoto = async(req, res) => {
-  if (req.params.idPic==null){
-    res.send({
-      error: 'no filename specified'
-    })
-  }
   res.set("Content-Type", "image/png");
+
+  const mod = await ModSchema.findById(req.params.id);
+  const modPicture = mod.picture;
+  if(!modPicture){
+    res.set("Content-Type", "application/json");
+    res.status(404).json({message: 'mod photo not found'})
+    return;
+  }
 
   const db = mongoose.connection.db;
   const bucket = new mongodb.GridFSBucket(db, { bucketName: 'modPicture' });
   try{
-    const stream = bucket.openDownloadStream(new mongoose.Types.ObjectId(req.params.idPic)).pipe(res);
+    const stream = bucket.openDownloadStream(new mongoose.Types.ObjectId(modPicture)).pipe(res);
   }
   catch(err){
     res.status(404).send({message: 'mod photo not found'})

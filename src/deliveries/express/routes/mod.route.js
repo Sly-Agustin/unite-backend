@@ -13,7 +13,7 @@ router.post('/', Validator('modValidatorSchema'), authJwt.verifyToken, verifyMod
 router.put('/:id', authJwt.verifyToken, verifyMod.checkModExists, verifyModOwner.checkOwnerSameAsActiveUser, modController.putMod);
 router.get('/game/:id', modController.getModsOfGame);
 router.get('/user/:id', modController.getModsOfUser);
-router.post('/:id/picture', modController.uploadModPhoto);
-router.get('/:id/picture/:idPic', modController.downloadModPhoto);
+router.post('/:id/picture', verifyMod.checkModExists, modController.uploadModPhoto);
+router.get('/:id/picture', verifyMod.checkModExists, modController.downloadModPhoto);
 
 export default router
