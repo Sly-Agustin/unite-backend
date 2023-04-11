@@ -27,6 +27,10 @@ const modSchema = new Schema({
       ref: "comment"
     }
   ],
+  picture: {
+    type: mongoose.Types.ObjectId,
+    ref: 'modPicture.files'
+  }
 })
 
 export const ModSchema = new mongoose.model('mod', modSchema)
