@@ -29,7 +29,7 @@ const modSchema = new Schema({
   ],
   picture: {
     type: mongoose.Types.ObjectId,
-    ref: 'modPicture.files'
+    ref: 'modPicture'
   }
 })
 
