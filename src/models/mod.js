@@ -30,6 +30,10 @@ const modSchema = new Schema({
   picture: {
     type: mongoose.Types.ObjectId,
     ref: 'modPicture'
+  },
+  file: {
+    type: mongoose.Types.ObjectId,
+    ref: 'modFile'
   }
 })
 

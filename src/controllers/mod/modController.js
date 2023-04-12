@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
 import { ModSchema } from '../../models/mod'
+import { FsSchema } from '../../models/fs';
 
 const upload = require("../../deliveries/express/middlewares/files/photos/modPhotos");
 import { dburl } from 'config'
 const mongodb = require('mongodb');
+const uploadModFileToDb = require("../../deliveries/express/middlewares/files/modFiles");
 
 const MongoClient = require("mongodb").MongoClient;
 const GridFSBucket = require("mongodb").GridFSBucket;
@@ -125,4 +127,49 @@ const downloadModPhoto = async(req, res) => {
   }
 };
 
-export default { getMod, postMod, putMod, getModsOfGame, getModsOfUser, uploadModPhoto, downloadModPhoto }
+const uploadModFile = async(req, res) => {
+  try {
+    //await uploadModFileToDb(req, res);
+
+    if (req.file == undefined) {
+      return res.send({
+        message: "You must select a file.",
+      });
+    }
+
+    let mod = await ModSchema.findById(req.params.id);
+    mod.file=req.file.id;
+    await mod.save();
+
+    return res.send({
+      message: "File has been uploaded.",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.send({
+      message: "Error when trying upload image: ${error}",
+    });
+  }
+}
+
+const downloadModFile = async(req, res) => {
+  const mod = await ModSchema.findById(req.params.id);
+  const modFile = mod.file;
+  if(!modFile){
+    res.set("Content-Type", "application/json");
+    res.status(404).json({message: 'mod photo not found'})
+    return;
+  }
+
+  const db = mongoose.connection.db;
+  const bucket = new mongodb.GridFSBucket(db, { bucketName: 'modFile' });
+  try{
+    const stream = bucket.openDownloadStream(new mongoose.Types.ObjectId(modFile)).pipe(res);
+  }
+  catch(err){
+    res.status(404).send({message: 'mod photo not found'})
+    return;
+  }
+};
+
+export default { getMod, postMod, putMod, getModsOfGame, getModsOfUser, uploadModPhoto, downloadModPhoto, uploadModFile, downloadModFile }
