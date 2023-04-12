@@ -1,15 +1,9 @@
 import mongoose from 'mongoose';
 import { ModSchema } from '../../models/mod'
-import { FsSchema } from '../../models/fs';
 
 const upload = require("../../deliveries/express/middlewares/files/photos/modPhotos");
-import { dburl } from 'config'
 const mongodb = require('mongodb');
-const uploadModFileToDb = require("../../deliveries/express/middlewares/files/modFiles");
 
-const MongoClient = require("mongodb").MongoClient;
-const GridFSBucket = require("mongodb").GridFSBucket;
-const mongoClient = new MongoClient(dburl);
 
 const getMod = async(req, res) => {
   const modId = req.params.id;

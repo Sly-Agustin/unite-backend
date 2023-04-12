@@ -1,7 +1,7 @@
 import multer from "multer";
 import { GridFsStorage } from "multer-gridfs-storage";
 import { dburl } from "config";
-const util = require("util");
+import util from 'util'
 
 const storage = new GridFsStorage({
     url: dburl,
