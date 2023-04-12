@@ -129,8 +129,6 @@ const downloadModPhoto = async(req, res) => {
 
 const uploadModFile = async(req, res) => {
   try {
-    //await uploadModFileToDb(req, res);
-
     if (req.file == undefined) {
       return res.send({
         message: "You must select a file.",
