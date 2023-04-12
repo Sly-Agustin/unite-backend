@@ -32,7 +32,7 @@ const postMod = async(req, res) => {
 
   try{
     await newMod.save();
-    res.status(200).send({ message: 'mod succesfully created' })
+    res.status(200).send({ message: 'mod succesfully created', id: newMod._id })
   }
   catch(err){
     res.status(500).send({ message: err });
