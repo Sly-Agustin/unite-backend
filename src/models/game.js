@@ -5,6 +5,10 @@ const gameSchema = new Schema({
     type: String,
     required: true,
     unique: true
+  },
+  picture: {
+    type: mongoose.Types.ObjectId,
+    ref: 'gamePicture.files'
   }
 })
 

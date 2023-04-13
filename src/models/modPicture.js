@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 const modPictureSchema = new mongoose.Schema({
   length: { type: Number },
   chunkSize: { type: Number },
@@ -5,4 +7,4 @@ const modPictureSchema = new mongoose.Schema({
   filename: { type: String, trim: true, searchable: true },
 }, { collection: 'modPicture.files', id: false });
 
-const Track = mongoose.model('modPicture', modPictureSchema);
+export const ModPictureSchema = new mongoose.model('modPicture', modPictureSchema);
