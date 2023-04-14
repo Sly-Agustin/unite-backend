@@ -7,7 +7,7 @@ const storage = new GridFsStorage({
     url: dburl,
     options: { useNewUrlParser: true, useUnifiedTopology: true },
     file: (req, file) => {
-        const match = ["application/zip"];
+        const match = ["application/zip", "application/x-zip-compressed"];
 
         if (match.indexOf(file.mimetype) === -1) {
             return null;
