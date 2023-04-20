@@ -11,7 +11,7 @@ router.get('/:id', verifyMod.checkModExists, modController.getMod);
 router.post('/', Validator('modValidatorSchema'), authJwt.verifyToken, verifyMod.checkModNameDuplicate, modController.postMod);
 router.put('/:id', authJwt.verifyToken, verifyMod.checkModExists, verifyModOwner.checkOwnerSameAsActiveUser, modController.putMod);
 router.get('/game/:id', verifyGame.checkGameExists, modController.getModsOfGame);
-router.get('/game/:id/search', searchMod.checkParamsAndBody, verifyGame.checkGameExists, modController.searchMods);
+router.post('/game/:id/search', searchMod.checkParamsAndBody, verifyGame.checkGameExists, modController.searchMods);
 router.get('/user/:id', modController.getModsOfUser);
 router.post('/:id/picture', authJwt.verifyToken, verifyMod.checkModExists, verifyModOwner.checkOwnerSameAsActiveUser, modController.uploadModPhoto);
 router.get('/:id/picture', verifyMod.checkModExists, modController.downloadModPhoto);

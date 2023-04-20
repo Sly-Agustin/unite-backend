@@ -168,7 +168,7 @@ const searchMods = async(req, res) => {
   const gameId = req.params.id
   try{
     const results = await ModSchema.find({ gameId: gameId, name: { "$regex": req.body.name, "$options": "i" }});
-    return res.status(200).send({results: results})
+    return res.status(200).send(results)
   }
   catch(err){
     res.status(500).send({ message: err });
