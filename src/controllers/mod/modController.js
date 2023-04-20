@@ -164,4 +164,15 @@ const downloadModFile = async(req, res) => {
   }
 };
 
-export default { getMod, postMod, putMod, getModsOfGame, getModsOfUser, uploadModPhoto, downloadModPhoto, uploadModFile, downloadModFile }
+const searchMods = async(req, res) => {
+  const gameId = req.params.id
+  try{
+    const results = await ModSchema.find({ gameId: gameId, name: { "$regex": req.body.name, "$options": "i" }});
+    return res.status(200).send({results: results})
+  }
+  catch(err){
+    res.status(500).send({ message: err });
+  }
+}
+
+export default { getMod, postMod, putMod, getModsOfGame, getModsOfUser, uploadModPhoto, downloadModPhoto, uploadModFile, downloadModFile, searchMods }
